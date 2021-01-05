@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.pichs.common.widget.cardview.XCardLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ll_parent_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    android:orientation="vertical"
+    android:paddingTop="20dp"
+    android:paddingBottom="20dp">
+
+    <com.pichs.common.widget.view.XTextView
+        android:id="@+id/tv_dialog_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:gravity="center"
+        android:textColor="@color/dialog_vertical_title_text_color"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <com.pichs.common.widget.view.XTextView
+        android:id="@+id/tv_dialog_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:textColor="#666666"
+        android:textSize="14sp" />
+
+    <com.pichs.common.widget.cardview.XCardButton
+        android:id="@+id/btn_dialog_o1"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:visibility="gone"
+        android:gravity="center"
+        android:text="Button1"
+        android:textColor="#ffffff"
+        android:textSize="14sp"
+        app:xp_backgroundGradientEndColor="@color/dialog_vertical_btn_end_color"
+        app:xp_backgroundGradientStartColor="@color/dialog_vertical_btn_start_color"
+        app:xp_radius="25dp" />
+
+    <com.pichs.common.widget.cardview.XCardButton
+        android:id="@+id/btn_dialog_o2"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:visibility="gone"
+        android:layout_marginEnd="20dp"
+        android:gravity="center"
+        android:text="Button2"
+        android:textColor="@color/dialog_vertical_btn_text_color"
+        android:textSize="14sp"
+        app:xp_borderColor="@color/dialog_vertical_btn_border_color"
+        app:xp_borderWidth="1dp"
+        app:xp_radius="25dp" />
+
+    <com.pichs.common.widget.cardview.XCardButton
+        android:id="@+id/btn_dialog_o3"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:visibility="gone"
+        android:gravity="center"
+        android:text="Button3"
+        android:textColor="@color/dialog_vertical_btn_text_color"
+        android:textSize="14sp"
+        app:xp_borderColor="@color/dialog_vertical_btn_border_color"
+        app:xp_borderWidth="1dp"
+        app:xp_radius="25dp" />
+
+    <com.pichs.common.widget.view.XTextView
+        android:id="@+id/tv_dialog_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="12dp"
+        android:paddingStart="16dp"
+        android:paddingTop="3dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="3dp"
+        android:text="No, Thanks"
+        android:textColor="#999999" />
+
+</com.pichs.common.widget.cardview.XCardLinearLayout>
+

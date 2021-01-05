@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--  新设计的竖向排列button弹窗颜色  -->
+    <color name="dialog_vertical_btn_start_color">#FF5D5FEA</color>
+    <color name="dialog_vertical_btn_end_color">#FF759BFD</color>
+    <color name="dialog_vertical_btn_border_color">#587EF0</color>
+    <color name="dialog_vertical_btn_text_color">#FF627DF5</color>
+    <color name="dialog_vertical_title_text_color">#277CE6</color>
+
+
+    <color name="policy_click_color">#0974F7</color>
+    <color name="policy_click_pressed_color">#d5d5d5</color>
+
+    <color name="pop_action_background_color">#D9000000</color>
+
+</resources>

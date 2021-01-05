@@ -1,0 +1,13 @@
+<resources>
+
+    <string name="policy_privacy_content">欢迎使用%1$s！\n
+        1、为了更好的向您提供浏览推荐优质的内容等相关服务，
+        我们会根据您的使用的服务的具体功能需要，收集必要的用户信息（可能涉及设备等相关信息）。\n
+       2、不经过您同意我们是不会从第三方获取、共享或对外提供您的信息。</string>
+    <string name="policy_refuse_and_exit">拒绝并退出</string>
+    <string name="policy_agree">同意</string>
+    <string name="policy_worm_tips">温馨提示</string>
+    <string name="policy_read_complete_policy">请阅读完整版</string>
+    <string name="policy_privacy">《隐私政策》</string>
+    <string name="user_association">《用户协议》</string>
+</resources>
