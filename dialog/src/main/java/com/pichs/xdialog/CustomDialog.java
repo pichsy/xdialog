@@ -107,59 +107,59 @@ public class CustomDialog extends BaseDialogFragment implements IDialog {
             }
         }
 
-        if (builder.confirmTextColor != 0) {
-            positiveButton.setTextColor(builder.confirmTextColor);
+        if (builder.positiveTextColor != 0) {
+            positiveButton.setTextColor(builder.positiveTextColor);
         }
 
-        if (builder.cancelTextColor != 0) {
-            negativeButton.setTextColor(builder.cancelTextColor);
+        if (builder.negativeTextColor != 0) {
+            negativeButton.setTextColor(builder.negativeTextColor);
         }
 
         negativeButton.setVisibility(View.GONE);
         positiveButton.setVisibility(View.GONE);
         dividerVertical.setVisibility(View.GONE);
 
-        if (builder.confirmButtonText != null && builder.cancelButtonText != null) {
+        if (builder.positiveButtonText != null && builder.negativeButtonText != null) {
             dividerVertical.setVisibility(View.VISIBLE);
             positiveButton.setVisibility(View.VISIBLE);
             negativeButton.setVisibility(View.VISIBLE);
-            positiveButton.setText(builder.confirmButtonText);
-            if (builder.confirmTextSize != 0) {
-                positiveButton.setTextSize(builder.confirmTextSize);
+            positiveButton.setText(builder.positiveButtonText);
+            if (builder.positiveTextSize != 0) {
+                positiveButton.setTextSize(builder.positiveTextSize);
             }
 
-            if (builder.onConfirmClickListener != null) {
-                positiveButton.setOnClickListener(v -> builder.onConfirmClickListener.onClick(dialog, v));
+            if (builder.onPositiveClickListener != null) {
+                positiveButton.setOnClickListener(v -> builder.onPositiveClickListener.onClick(dialog, v));
             }
-            negativeButton.setText(builder.cancelButtonText);
+            negativeButton.setText(builder.negativeButtonText);
 
-            if (builder.cancelTextSize != 0) {
-                negativeButton.setTextSize(builder.cancelTextSize);
+            if (builder.negativeTextSize != 0) {
+                negativeButton.setTextSize(builder.negativeTextSize);
             }
 
-            if (builder.onCancelClickListener != null) {
-                negativeButton.setOnClickListener(v -> builder.onCancelClickListener.onClick(dialog, v));
+            if (builder.onNegativeClickListener != null) {
+                negativeButton.setOnClickListener(v -> builder.onNegativeClickListener.onClick(dialog, v));
             }
-        } else if (builder.confirmButtonText != null) {
+        } else if (builder.positiveButtonText != null) {
             positiveButton.setVisibility(View.VISIBLE);
-            positiveButton.setText(builder.confirmButtonText);
-            if (builder.confirmTextSize != 0) {
-                positiveButton.setTextSize(builder.confirmTextSize);
+            positiveButton.setText(builder.positiveButtonText);
+            if (builder.positiveTextSize != 0) {
+                positiveButton.setTextSize(builder.positiveTextSize);
             }
-            if (builder.onConfirmClickListener != null) {
-                positiveButton.setOnClickListener(v -> builder.onConfirmClickListener.onClick(dialog, v));
+            if (builder.onPositiveClickListener != null) {
+                positiveButton.setOnClickListener(v -> builder.onPositiveClickListener.onClick(dialog, v));
             }
         } else {
-            if (builder.cancelButtonText == null) {
-                builder.cancelButtonText = "Cancel";
+            if (builder.negativeButtonText == null) {
+                builder.negativeButtonText = "Cancel";
             }
             negativeButton.setVisibility(View.VISIBLE);
-            negativeButton.setText(builder.cancelButtonText);
-            if (builder.cancelTextSize != 0) {
-                negativeButton.setTextSize(builder.cancelTextSize);
+            negativeButton.setText(builder.negativeButtonText);
+            if (builder.negativeTextSize != 0) {
+                negativeButton.setTextSize(builder.negativeTextSize);
             }
-            if (builder.onCancelClickListener != null) {
-                negativeButton.setOnClickListener(v -> builder.onCancelClickListener.onClick(dialog, v));
+            if (builder.onNegativeClickListener != null) {
+                negativeButton.setOnClickListener(v -> builder.onNegativeClickListener.onClick(dialog, v));
             }
         }
     }
@@ -255,8 +255,8 @@ public class CustomDialog extends BaseDialogFragment implements IDialog {
         int buttonHeight = -1;
         CharSequence title;
         CharSequence message;
-        CharSequence cancelButtonText;
-        CharSequence confirmButtonText;
+        CharSequence negativeButtonText;
+        CharSequence positiveButtonText;
 
         // 弹窗优先级
         int priority;
@@ -266,17 +266,17 @@ public class CustomDialog extends BaseDialogFragment implements IDialog {
         @ColorInt
         int messageTextColor;
         @ColorInt
-        int cancelTextColor;
+        int negativeTextColor;
         @ColorInt
-        int confirmTextColor;
+        int positiveTextColor;
 
         /**
          * 字体大小 单位 dp
          */
         int titleTextSize;
         int messageTextSize;
-        int cancelTextSize;
-        int confirmTextSize;
+        int negativeTextSize;
+        int positiveTextSize;
 
         /**
          * see {@link Gravity}
@@ -309,8 +309,8 @@ public class CustomDialog extends BaseDialogFragment implements IDialog {
         // 背景透明度 0-1
         float dimAmount = 0.5f;
 
-        OnClickListener onCancelClickListener;
-        OnClickListener onConfirmClickListener;
+        OnClickListener onNegativeClickListener;
+        OnClickListener onPositiveClickListener;
 
         public Builder(AppCompatActivity activity) {
             this.activity = activity;
@@ -338,13 +338,13 @@ public class CustomDialog extends BaseDialogFragment implements IDialog {
             return this;
         }
 
-        public Builder setCancelTextSize(int cancelTextSize) {
-            this.cancelTextSize = cancelTextSize;
+        public Builder setNegativeTextSize(int negativeTextSize) {
+            this.negativeTextSize = negativeTextSize;
             return this;
         }
 
-        public Builder setConfirmTextSize(int confirmTextSize) {
-            this.confirmTextSize = confirmTextSize;
+        public Builder setPositiveTextSize(int positiveTextSize) {
+            this.positiveTextSize = positiveTextSize;
             return this;
         }
 
@@ -363,13 +363,13 @@ public class CustomDialog extends BaseDialogFragment implements IDialog {
             return this;
         }
 
-        public Builder setOnCancelClickListener(OnClickListener onCancelClickListener) {
-            this.onCancelClickListener = onCancelClickListener;
+        public Builder setOnNegativeClickListener(OnClickListener onNegativeClickListener) {
+            this.onNegativeClickListener = onNegativeClickListener;
             return this;
         }
 
-        public Builder setOnConfirmClickListener(OnClickListener onConfirmClickListener) {
-            this.onConfirmClickListener = onConfirmClickListener;
+        public Builder setOnPositiveClickListener(OnClickListener onPositiveClickListener) {
+            this.onPositiveClickListener = onPositiveClickListener;
             return this;
         }
 
@@ -388,13 +388,13 @@ public class CustomDialog extends BaseDialogFragment implements IDialog {
             return this;
         }
 
-        public Builder setCancelButtonText(CharSequence cancelButtonText) {
-            this.cancelButtonText = cancelButtonText;
+        public Builder setNegativeButtonText(CharSequence negativeButtonText) {
+            this.negativeButtonText = negativeButtonText;
             return this;
         }
 
-        public Builder setConfirmButtonText(CharSequence confirmButtonText) {
-            this.confirmButtonText = confirmButtonText;
+        public Builder setPositiveButtonText(CharSequence positiveButtonText) {
+            this.positiveButtonText = positiveButtonText;
             return this;
         }
 
@@ -408,13 +408,13 @@ public class CustomDialog extends BaseDialogFragment implements IDialog {
             return this;
         }
 
-        public Builder setCancelTextColor(int cancelTextColor) {
-            this.cancelTextColor = cancelTextColor;
+        public Builder setNegativeTextColor(int negativeTextColor) {
+            this.negativeTextColor = negativeTextColor;
             return this;
         }
 
-        public Builder setConfirmTextColor(int confirmTextColor) {
-            this.confirmTextColor = confirmTextColor;
+        public Builder setPositiveTextColor(int positiveTextColor) {
+            this.positiveTextColor = positiveTextColor;
             return this;
         }
 
