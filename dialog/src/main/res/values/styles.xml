@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="NiceDialogStyle" parent="Theme.AppCompat.Light.Dialog">
+    <style name="XBaseDialogStyle" parent="Theme.AppCompat.Light.Dialog">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
@@ -15,6 +15,30 @@
     <style name="LeftAnimation" parent="XP_Animation_Start" />
     <style name="TopAnimation" parent="XP_Animation_Top" />
     <style name="ScaleAnimation" parent="XP_Animation_Scale" />
+
+    <style name="XBaseDialogStyle.Transparent" parent="@android:style/Theme.Holo.Dialog">
+        <!-- 是否有边框 -->
+        <item name="android:windowFrame">@null</item>
+        <!--是否在悬浮Activity之上  -->
+        <item name="android:windowIsFloating">true</item>
+        <!--标题  -->
+        <item name="android:windowNoTitle">true</item>
+        <!--阴影  -->
+        <item name="android:windowIsTranslucent">true</item>
+        <!--透明背景-->
+        <item name="android:background">@android:color/transparent</item>
+        <!--窗口背景透明-->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!--弹窗背景是否变暗-->
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
+    <style name="CommonProgressBarStyle">
+        <item name="android:indeterminateDuration">1500</item>
+        <item name="android:indeterminateBehavior">repeat</item>
+        <item name="android:indeterminateDrawable">@drawable/common_dialog_progress_rotate</item>
+        <item name="android:indeterminate">true</item>
+    </style>
 
 
 </resources>

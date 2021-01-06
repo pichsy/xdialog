@@ -23,7 +23,7 @@
             android:layout_gravity="center"
             android:visibility="gone" />
 
-        <TextView
+        <com.pichs.common.widget.view.XTextView
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
             android:textColor="#000"
             android:textSize="18sp" />
 
-        <TextView
+        <com.pichs.common.widget.view.XTextView
             android:id="@+id/tv_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
             android:orientation="horizontal"
             android:visibility="visible">
 
-            <TextView
+            <com.pichs.common.widget.view.XTextView
                 android:id="@+id/policy_read_complete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -65,7 +65,7 @@
                 android:textSize="12sp"
                 android:textStyle="bold" />
 
-            <TextView
+            <com.pichs.common.widget.view.XTextView
                 android:id="@+id/policy_read_policy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -76,7 +76,7 @@
                 android:textSize="13sp"
                 android:textStyle="bold" />
 
-            <TextView
+            <com.pichs.common.widget.view.XTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="8dp"
@@ -86,7 +86,7 @@
                 android:textSize="13sp"
                 android:textStyle="bold" />
 
-            <TextView
+            <com.pichs.common.widget.view.XTextView
                 android:id="@+id/policy_read_aso"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

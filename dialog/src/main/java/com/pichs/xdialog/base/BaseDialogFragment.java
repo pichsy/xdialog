@@ -41,7 +41,7 @@ public abstract class BaseDialogFragment extends DialogFragment {
     private int gravity = Gravity.CENTER;//显示的位置
     private boolean outCancel = true;//是否点击外部取消
     @StyleRes
-    protected int theme = R.style.NiceDialogStyle; // dialog主题
+    protected int theme = R.style.XBaseDialogStyle; // dialog主题
     @StyleRes
     private int animStyle;
     @LayoutRes
