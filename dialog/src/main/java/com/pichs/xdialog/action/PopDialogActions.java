@@ -57,15 +57,39 @@ public class PopDialogActions {
 
     // 距离两边的边距 10dp
     private int mSideMargin = 0;
+
+    private boolean mArrowVisible = true;
+
     //pop消失回调
     private PopDialogActions.popWindowDismissListener popWindowDismissListener;
 
+    public PopDialogActions(Context context, int contentWidth, int contentHeight, int arrowWidth, int arrowHeight) {
+        this.mContext = context;
+        this.mWidth = contentWidth;
+        this.mArrowHeight = arrowHeight;
+        this.mArrowWidth = arrowWidth;
+        // 只要有一个为0 就不会显示箭头
+        if (this.mArrowWidth <= 0 || mArrowHeight <= 0) {
+            this.mArrowWidth = 0;
+            this.mArrowWidth = 0;
+            this.mArrowVisible = false;
+        }
+        this.mSideMargin = XDisplayHelper.dp2px(context, 10);
+        this.mContentHeight = contentHeight;
+        this.mHeight = mContentHeight + mArrowHeight;
+        this.mStatusBarHeight = XDisplayHelper.getStatusBarHeight(mContext);
+        this.mScreenWidth = XDisplayHelper.getScreenWidth(mContext);
+        this.mScreenHeight = XDisplayHelper.getScreenHeight(mContext);
+        init();
+    }
+
+
     public PopDialogActions(Context context, int contentWidth, int contentHeight) {
-        mContext = context;
+        this.mContext = context;
         this.mWidth = contentWidth;
         this.mArrowHeight = context.getResources().getDimensionPixelSize(R.dimen.pop_action_menu_arrow_height);
         this.mArrowWidth = context.getResources().getDimensionPixelSize(R.dimen.pop_action_menu_arrow_width);
-        this.mSideMargin = XDisplayHelper.dp2px( context,10);
+        this.mSideMargin = XDisplayHelper.dp2px(context, 10);
         this.mContentHeight = contentHeight;
         this.mHeight = mContentHeight + mArrowHeight;
         this.mStatusBarHeight = XDisplayHelper.getStatusBarHeight(mContext);
@@ -92,6 +116,10 @@ public class PopDialogActions {
         mContainerView.setLayoutParams(layoutParams);
         mIvArrowDown = rootView.findViewById(R.id.iv_arrow_down);
         mIvArrowUp = rootView.findViewById(R.id.iv_arrow_up);
+        if (!this.mArrowVisible) {
+            mIvArrowDown.setVisibility(View.GONE);
+            mIvArrowUp.setVisibility(View.GONE);
+        }
         mPopupWindow.setWidth(mWidth == 0 ? ViewGroup.LayoutParams.MATCH_PARENT : mWidth);
         mPopupWindow.setHeight(mHeight == 0 ? ViewGroup.LayoutParams.WRAP_CONTENT : mHeight);
         setBackgroundColor(ContextCompat.getColor(mContext, R.color.pop_action_background_color));
@@ -184,8 +212,8 @@ public class PopDialogActions {
     public void show(View anchor) {
         if (mPopupWindow != null) {
             AnchorInfo anchorInfo = new AnchorInfo(anchor);
-            showOrHideArrow(anchorInfo.isShowInBottom());
             setArrowPosition(anchorInfo);
+            showOrHideArrow(anchorInfo.isShowInBottom());
             if (anchorInfo.getWindowGravity() == WINDOW_GRAVITY_LEFT) {
                 mPopupWindow.showAtLocation(anchor, Gravity.TOP | Gravity.START, anchorInfo.getDialogOffsetX(), anchorInfo.getDialogOffsetY());
             } else if (anchorInfo.getWindowGravity() == WINDOW_GRAVITY_RIGHT) {
@@ -211,12 +239,14 @@ public class PopDialogActions {
     }
 
     private void showOrHideArrow(boolean isShowInBottom) {
-        if (isShowInBottom) {
-            mIvArrowUp.setVisibility(View.VISIBLE);
-            mIvArrowDown.setVisibility(View.GONE);
-        } else {
-            mIvArrowUp.setVisibility(View.GONE);
-            mIvArrowDown.setVisibility(View.VISIBLE);
+        if (this.mArrowVisible) {
+            if (isShowInBottom) {
+                mIvArrowUp.setVisibility(View.VISIBLE);
+                mIvArrowDown.setVisibility(View.GONE);
+            } else {
+                mIvArrowUp.setVisibility(View.GONE);
+                mIvArrowDown.setVisibility(View.VISIBLE);
+            }
         }
     }
 

@@ -1,5 +1,6 @@
 package com.pichs.xdialog.action;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -7,8 +8,11 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+
 import androidx.core.content.ContextCompat;
 
 import com.pichs.common.widget.cardview.XCardFrameLayout;
@@ -51,18 +55,43 @@ public class PopActions {
     // 箭头的宽高 20dp
     private int mArrowHeight = 0;
     private int mArrowWidth = 0;
+    private boolean mArrowVisible = true;
 
     // 距离两边的边距 10dp
     private int mSideMargin = 0;
+
+    // 背景透明度
+    private boolean dimAmountEnable = false;
+
     //pop消失回调
-    private popWindowDismissListener popWindowDismissListener;
+    private OnPopupWindowDismissListener onPopupWindowDismissListener;
+
+    public PopActions(Context context, int contentWidth, int contentHeight, int arrowWidth, int arrowHeight) {
+        this.mContext = context;
+        this.mWidth = contentWidth;
+        this.mArrowHeight = arrowHeight;
+        this.mArrowWidth = arrowWidth;
+        // 只要有一个为0 就不会显示箭头
+        if (this.mArrowWidth <= 0 || mArrowHeight <= 0) {
+            this.mArrowWidth = 0;
+            this.mArrowWidth = 0;
+            this.mArrowVisible = false;
+        }
+        this.mSideMargin = XDisplayHelper.dp2px(context, 10);
+        this.mContentHeight = contentHeight;
+        this.mHeight = mContentHeight + mArrowHeight;
+        this.mStatusBarHeight = XDisplayHelper.getStatusBarHeight(mContext);
+        this.mScreenWidth = XDisplayHelper.getScreenWidth(mContext);
+        this.mScreenHeight = XDisplayHelper.getScreenHeight(mContext);
+        init();
+    }
 
     public PopActions(Context context, int contentWidth, int contentHeight) {
-        mContext = context;
+        this.mContext = context;
         this.mWidth = contentWidth;
         this.mArrowHeight = context.getResources().getDimensionPixelSize(R.dimen.pop_action_menu_arrow_height);
         this.mArrowWidth = context.getResources().getDimensionPixelSize(R.dimen.pop_action_menu_arrow_width);
-        this.mSideMargin = XDisplayHelper.dp2px( context,10);
+        this.mSideMargin = XDisplayHelper.dp2px(context, 10);
         this.mContentHeight = contentHeight;
         this.mHeight = mContentHeight + mArrowHeight;
         this.mStatusBarHeight = XDisplayHelper.getStatusBarHeight(mContext);
@@ -89,14 +118,21 @@ public class PopActions {
         mContainerView.setLayoutParams(layoutParams);
         mIvArrowDown = rootView.findViewById(R.id.iv_arrow_down);
         mIvArrowUp = rootView.findViewById(R.id.iv_arrow_up);
+        if (!this.mArrowVisible) {
+            mIvArrowDown.setVisibility(View.GONE);
+            mIvArrowUp.setVisibility(View.GONE);
+        }
         mPopupWindow.setWidth(mWidth == 0 ? ViewGroup.LayoutParams.MATCH_PARENT : mWidth);
         mPopupWindow.setHeight(mHeight == 0 ? ViewGroup.LayoutParams.WRAP_CONTENT : mHeight);
         setBackgroundColor(ContextCompat.getColor(mContext, R.color.pop_action_background_color));
         mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                if (popWindowDismissListener != null) {
-                    popWindowDismissListener.popDismiss();
+                if (dimAmountEnable) {
+                    dimAmountBackground(mContext, 0f);
+                }
+                if (onPopupWindowDismissListener != null) {
+                    onPopupWindowDismissListener.popDismiss();
                 }
             }
         });
@@ -141,6 +177,15 @@ public class PopActions {
         return this;
     }
 
+    /**
+     * 设置背景黑色透明度
+     *
+     * @param dimAmountEnable 是否进行透明度展示，true 会半透明，false 背景不变化
+     */
+    public PopActions setDimAmountEnable(boolean dimAmountEnable) {
+        this.dimAmountEnable = this.dimAmountEnable;
+        return this;
+    }
 
     /**
      * 如果有透明度就传带透明度的颜色值
@@ -179,14 +224,17 @@ public class PopActions {
     public void show(View anchor) {
         if (mPopupWindow != null) {
             AnchorInfo anchorInfo = new AnchorInfo(anchor);
-            showOrHideArrow(anchorInfo.isShowInBottom());
             setArrowPosition(anchorInfo);
+            showOrHideArrow(anchorInfo.isShowInBottom());
             if (anchorInfo.getWindowGravity() == WINDOW_GRAVITY_LEFT) {
                 mPopupWindow.showAtLocation(anchor, Gravity.TOP | Gravity.START, anchorInfo.getOffsetX(), anchorInfo.getOffsetY());
             } else if (anchorInfo.getWindowGravity() == WINDOW_GRAVITY_RIGHT) {
                 mPopupWindow.showAtLocation(anchor, Gravity.TOP | Gravity.END, anchorInfo.getOffsetX(), anchorInfo.getOffsetY());
             } else {
                 mPopupWindow.showAtLocation(anchor, Gravity.CENTER_HORIZONTAL | Gravity.TOP, anchorInfo.getOffsetX(), anchorInfo.getOffsetY());
+            }
+            if (dimAmountEnable) {
+                dimAmountBackground(mContext, 0.5f);
             }
         }
     }
@@ -205,16 +253,16 @@ public class PopActions {
     }
 
     private void showOrHideArrow(boolean isShowInBottom) {
-        if (isShowInBottom) {
-            mIvArrowUp.setVisibility(View.VISIBLE);
-            mIvArrowDown.setVisibility(View.GONE);
-        } else {
-            mIvArrowUp.setVisibility(View.GONE);
-            mIvArrowDown.setVisibility(View.VISIBLE);
+        if (this.mArrowVisible) {
+            if (isShowInBottom) {
+                mIvArrowUp.setVisibility(View.VISIBLE);
+                mIvArrowDown.setVisibility(View.GONE);
+            } else {
+                mIvArrowUp.setVisibility(View.GONE);
+                mIvArrowDown.setVisibility(View.VISIBLE);
+            }
         }
     }
-
-
 
 
     class AnchorInfo {
@@ -337,11 +385,38 @@ public class PopActions {
         }
     }
 
-    public void setPopWindowDismissListener(popWindowDismissListener popWindowDismissListener) {
-        this.popWindowDismissListener = popWindowDismissListener;
+    /**
+     * 设置背景半透明
+     *
+     * @param context   Context
+     * @param dimAmount 透明度 0.5f 默认
+     */
+    private void dimAmountBackground(Context context, float dimAmount) {
+        if (context instanceof Activity) {
+            Activity activity = (Activity) context;
+            Window window = activity.getWindow();
+            if (window != null) {
+                WindowManager.LayoutParams lp = window.getAttributes();
+                lp.dimAmount = dimAmount;
+                lp.alpha = 1 - dimAmount;
+                if (lp.alpha == 1f) {
+                    //不移除该Flag的话,在有视频的页面上的视频会出现黑屏的bug
+                    activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+                } else {
+                    //此行代码主要是解决在华为手机上半透明效果无效的bug
+                    activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+                }
+                window.setAttributes(lp);
+            }
+        }
     }
 
-    public interface popWindowDismissListener {
+
+    public void setOnPopupWindowDismissListener(OnPopupWindowDismissListener listener) {
+        this.onPopupWindowDismissListener = listener;
+    }
+
+    public interface OnPopupWindowDismissListener {
         void popDismiss();
     }
 

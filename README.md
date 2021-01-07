@@ -40,5 +40,24 @@
               }
           })
           .build().show();
+          
+          
+          
+          PopActions菜单弹窗框架，封装了一个弹起的壳，坐标计算都计算好了，以anchor的上下边的中心为箭头展示起点。
+          里面的内容可自定义。只需关注内容布局，无需考虑弹起坐标。箭头也可以设置大小或者隐藏显示，高度、宽度为0即隐藏。
+          eg:
+          private void popMenu(View v) {
+                  TextView tv = new TextView(this);
+                  tv.setText("jdslfjldsajflasdjfldjsa");
+                  tv.setLayoutParams(new ViewGroup.LayoutParams(-2, -2));
+                 
+                  PopActions pa = new PopActions(this, XDisplayHelper.dp2px(this, 200), XDisplayHelper.dp2px(this, 80));
+                  pa
+                    .setRadius(XDisplayHelper.dp2px(this, 10))
+                    .setBackgroundColor(Color.RED)
+                    .setDimAmountEnable(true)
+                    .addView(tv)
+                    .show(v);
+          }
         
  

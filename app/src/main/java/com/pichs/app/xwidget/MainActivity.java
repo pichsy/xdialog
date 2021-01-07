@@ -5,29 +5,36 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.pichs.common.widget.cardview.XCardButton;
 import com.pichs.common.widget.utils.XDisplayHelper;
 import com.pichs.xdialog.CustomDialog;
+import com.pichs.xdialog.action.PopActions;
 import com.pichs.xdialog.base.BaseDialogFragment;
 import com.pichs.xdialog.toast.PopToast;
+
+import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppCompatActivity mActivity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mActivity = this;
         setContentView(R.layout.activity_main);
         XCardButton btn = findViewById(R.id.btn1);
+        XCardButton btn2 = findViewById(R.id.btn2);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new CustomDialog.Builder(mActivity)
                         .setTitleTextColor(Color.BLUE)
                         .setTitleTextSize(24)
-                        .setRadius(XDisplayHelper.dp2px(mActivity,20))
+                        .setRadius(XDisplayHelper.dp2px(mActivity, 20))
                         .setBackgroundColor(Color.YELLOW)
                         .setDimAmount(0.8f)
                         .setDividerLineColor(Color.RED)
@@ -62,5 +69,25 @@ public class MainActivity extends AppCompatActivity {
                         .build().show();
             }
         });
+
+        btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popMenu(v);
+            }
+        });
+    }
+
+
+    private void popMenu(View v) {
+        TextView tv = new TextView(this);
+        tv.setText("jdslfjldsajflasdjfldjsa");
+        tv.setLayoutParams(new ViewGroup.LayoutParams(-2, -2));
+        PopActions pa = new PopActions(this, XDisplayHelper.dp2px(this, 200), XDisplayHelper.dp2px(this, 80));
+        pa.setRadius(XDisplayHelper.dp2px(this, 10));
+        pa.setBackgroundColor(Color.RED)
+                .setDimAmountEnable(true)
+                .addView(tv);
+        pa.show(v);
     }
 }
