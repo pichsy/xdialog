@@ -10,6 +10,7 @@ import android.view.ViewParent;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 
+import androidx.annotation.ColorInt;
 import androidx.core.content.ContextCompat;
 
 import com.pichs.common.widget.cardview.XCardFrameLayout;
@@ -41,6 +42,10 @@ public class PopDialogActions {
     private ImageView mIvArrowUp;
     private ImageView mIvArrowDown;
     private XCardFrameLayout mContainerView;
+    // 添加进去的View
+    private View mContentView;
+    // 显示的⚓锚⚓
+    private View mAnchor;
 
     private int mWidth = 0, mHeight = 0;
     // 内容的高度
@@ -59,49 +64,149 @@ public class PopDialogActions {
     private int mSideMargin = 0;
 
     private boolean mArrowVisible = true;
-
     //pop消失回调
-    private PopDialogActions.popWindowDismissListener popWindowDismissListener;
+    private OnPopupWindowDismissListener onPopupWindowDismissListener;
 
-    public PopDialogActions(Context context, int contentWidth, int contentHeight, int arrowWidth, int arrowHeight) {
-        this.mContext = context;
-        this.mWidth = contentWidth;
-        this.mArrowHeight = arrowHeight;
-        this.mArrowWidth = arrowWidth;
+    // 用户设置的额外的offset
+    private int xOffset;
+    private int yOffset;
+
+    // 背景
+    private int backgroundRadius;
+    private int backgroundColor;
+    private int animationStyle;
+
+    public static class Builder {
+        private Context mContext;
+        private int contentWidth;
+        private int contentHeight;
+        private int arrowHeight;
+        private int arrowWidth;
+        private int sideMargin;
+        private int offsetX;
+        private int offsetY;
+        @ColorInt
+        private int backgroundColor;
+        private int radius;
+        private OnPopupWindowDismissListener onPopupWindowDismissListener;
+        private View contentView;
+        private View anchor;
+        private int animationStyle;
+
+        public Builder(Context context) {
+            mContext = context;
+            radius = XDisplayHelper.dp2px(context, 8);
+        }
+
+        public Builder setContentView(View contentView) {
+            this.contentView = contentView;
+            return this;
+        }
+
+        public Builder setAnchor(View anchor) {
+            this.anchor = anchor;
+            return this;
+        }
+
+        public Builder setAnimationStyle(int animationStyle) {
+            this.animationStyle = animationStyle;
+            return this;
+        }
+
+        public Builder setOnPopupWindowDismissListener(OnPopupWindowDismissListener onPopupWindowDismissListener) {
+            this.onPopupWindowDismissListener = onPopupWindowDismissListener;
+            return this;
+        }
+
+        public Builder setRadius(int radius) {
+            this.radius = radius;
+            return this;
+        }
+
+        public Builder setContentWidth(int contentWidth) {
+            this.contentWidth = contentWidth;
+            return this;
+        }
+
+        public Builder setContentHeight(int contentHeight) {
+            this.contentHeight = contentHeight;
+            return this;
+        }
+
+        public Builder setArrowHeight(int arrowHeight) {
+            this.arrowHeight = arrowHeight;
+            return this;
+        }
+
+        public Builder setArrowWidth(int arrowWidth) {
+            this.arrowWidth = arrowWidth;
+            return this;
+        }
+
+        public Builder setSideMargin(int sideMargin) {
+            this.sideMargin = sideMargin;
+            return this;
+        }
+
+        public Builder setOffsetX(int offsetX) {
+            this.offsetX = offsetX;
+            return this;
+        }
+
+        public Builder setOffsetY(int offsetY) {
+            this.offsetY = offsetY;
+            return this;
+        }
+
+        public Builder setBackgroundColor(int backgroundColor) {
+            this.backgroundColor = backgroundColor;
+            return this;
+        }
+
+        public PopDialogActions build() {
+            return new PopDialogActions(this);
+        }
+    }
+
+    private PopDialogActions(Builder builder) {
+        this.mContext = builder.mContext;
+        this.mWidth = builder.contentWidth;
+        this.mContentHeight = builder.contentHeight;
+        this.mArrowHeight = builder.arrowHeight;
+        this.mArrowWidth = builder.arrowWidth;
         // 只要有一个为0 就不会显示箭头
         if (this.mArrowWidth <= 0 || mArrowHeight <= 0) {
             this.mArrowWidth = 0;
             this.mArrowWidth = 0;
             this.mArrowVisible = false;
         }
-        this.mSideMargin = XDisplayHelper.dp2px(context, 10);
-        this.mContentHeight = contentHeight;
         this.mHeight = mContentHeight + mArrowHeight;
         this.mStatusBarHeight = XDisplayHelper.getStatusBarHeight(mContext);
         this.mScreenWidth = XDisplayHelper.getScreenWidth(mContext);
         this.mScreenHeight = XDisplayHelper.getScreenHeight(mContext);
-        init();
-    }
-
-
-    public PopDialogActions(Context context, int contentWidth, int contentHeight) {
-        this.mContext = context;
-        this.mWidth = contentWidth;
-        this.mArrowHeight = context.getResources().getDimensionPixelSize(R.dimen.pop_action_menu_arrow_height);
-        this.mArrowWidth = context.getResources().getDimensionPixelSize(R.dimen.pop_action_menu_arrow_width);
-        this.mSideMargin = XDisplayHelper.dp2px(context, 10);
-        this.mContentHeight = contentHeight;
-        this.mHeight = mContentHeight + mArrowHeight;
-        this.mStatusBarHeight = XDisplayHelper.getStatusBarHeight(mContext);
-        this.mScreenWidth = XDisplayHelper.getScreenWidth(mContext);
-        this.mScreenHeight = XDisplayHelper.getScreenHeight(mContext);
+        if (builder.sideMargin < 0) {
+            this.mSideMargin = XDisplayHelper.dp2px(mContext, 8);
+        } else {
+            this.mSideMargin = builder.sideMargin;
+        }
+        this.xOffset = builder.offsetX;
+        this.yOffset = builder.offsetY;
+        this.backgroundColor = builder.backgroundColor;
+        this.backgroundRadius = builder.radius;
+        this.mContentView = builder.contentView;
+        this.mAnchor = builder.anchor;
+        this.animationStyle = builder.animationStyle;
+        this.onPopupWindowDismissListener = builder.onPopupWindowDismissListener;
         init();
     }
 
     private void init() {
         mPopupWindow = new PopupWindow(mContext);
         mPopupWindow.setBackgroundDrawable(new ColorDrawable(0));
-        mPopupWindow.setAnimationStyle(R.style.ScaleAnimation);
+        if (animationStyle == 0) {
+            animationStyle = R.style.ScaleAnimation;
+        }
+        mPopupWindow.setAnimationStyle(animationStyle);
         mRootView = View.inflate(mContext, R.layout.pop_action_layout, null);
         initView(mRootView);
         mPopupWindow.setContentView(mRootView);
@@ -110,30 +215,52 @@ public class PopDialogActions {
     }
 
     private void initView(View rootView) {
+        if (mContentView == null) {
+            return;
+        }
         mContainerView = rootView.findViewById(R.id.fl_container);
         ViewGroup.LayoutParams layoutParams = mContainerView.getLayoutParams();
         layoutParams.height = mContentHeight;
         mContainerView.setLayoutParams(layoutParams);
+        addView(mContentView);
         mIvArrowDown = rootView.findViewById(R.id.iv_arrow_down);
         mIvArrowUp = rootView.findViewById(R.id.iv_arrow_up);
         if (!this.mArrowVisible) {
             mIvArrowDown.setVisibility(View.GONE);
             mIvArrowUp.setVisibility(View.GONE);
         }
+        // 设置箭头的大小
+        if (mArrowWidth > 0 && mArrowHeight > 0) {
+            ViewGroup.LayoutParams arrowDownLp = mIvArrowDown.getLayoutParams();
+            if (arrowDownLp != null) {
+                arrowDownLp.height = mArrowHeight;
+                arrowDownLp.width = mArrowWidth;
+                mIvArrowDown.setLayoutParams(arrowDownLp);
+            }
+            ViewGroup.LayoutParams arrowUpLp = mIvArrowUp.getLayoutParams();
+            if (arrowUpLp != null) {
+                arrowUpLp.height = mArrowHeight;
+                arrowUpLp.width = mArrowWidth;
+                mIvArrowUp.setLayoutParams(arrowUpLp);
+            }
+        }
         mPopupWindow.setWidth(mWidth == 0 ? ViewGroup.LayoutParams.MATCH_PARENT : mWidth);
         mPopupWindow.setHeight(mHeight == 0 ? ViewGroup.LayoutParams.WRAP_CONTENT : mHeight);
-        setBackgroundColor(ContextCompat.getColor(mContext, R.color.pop_action_background_color));
+        setBackgroundColor(backgroundColor == 0 ? ContextCompat.getColor(mContext, R.color.pop_action_background_color) : backgroundColor);
+        if (mContainerView != null) {
+            mContainerView.setRadius(backgroundRadius);
+        }
         mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                if (popWindowDismissListener != null) {
-                    popWindowDismissListener.popDismiss();
+                if (onPopupWindowDismissListener != null) {
+                    onPopupWindowDismissListener.onPopDismiss();
                 }
             }
         });
     }
 
-    public PopDialogActions addView(View view) {
+    private PopDialogActions addView(View view) {
         if (view == null) {
             return this;
         }
@@ -160,18 +287,6 @@ public class PopDialogActions {
         return mHeight;
     }
 
-    /**
-     * 布局圆角 px
-     *
-     * @param radius 单位 px
-     */
-    public PopDialogActions setRadius(int radius) {
-        if (mContainerView != null) {
-            mContainerView.setRadius(radius);
-        }
-        return this;
-    }
-
 
     /**
      * 如果有透明度就传带透明度的颜色值
@@ -191,17 +306,6 @@ public class PopDialogActions {
         return this;
     }
 
-    /**
-     * 设置动画放
-     *
-     * @param style
-     */
-    public PopDialogActions setAnimationStyle(int style) {
-        if (mPopupWindow != null) {
-            mPopupWindow.setAnimationStyle(style);
-        }
-        return this;
-    }
 
     /**
      * 在Dialog上显示时请使用此方法
@@ -224,6 +328,11 @@ public class PopDialogActions {
         }
     }
 
+    public void show() {
+        if (mAnchor != null) {
+            show(mAnchor);
+        }
+    }
 
     public void dismiss() {
         if (mPopupWindow != null && mPopupWindow.isShowing()) {
@@ -363,6 +472,10 @@ public class PopDialogActions {
             } else {
                 dialogOffsetY = anchorWindowY - getHeight();
             }
+
+            // 加上用户的偏移量
+            dialogOffsetX = dialogOffsetX + xOffset;
+            dialogOffsetY = dialogOffsetY + yOffset;
         }
 
         public int getArrowMarinStart() {
@@ -389,14 +502,6 @@ public class PopDialogActions {
             return anchorCenterX;
         }
 
-    }
-
-    public void setPopWindowDismissListener(PopDialogActions.popWindowDismissListener popWindowDismissListener) {
-        this.popWindowDismissListener = popWindowDismissListener;
-    }
-
-    public interface popWindowDismissListener {
-        void popDismiss();
     }
 
 }

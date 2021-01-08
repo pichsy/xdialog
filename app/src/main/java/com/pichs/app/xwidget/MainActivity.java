@@ -11,7 +11,9 @@ import android.widget.TextView;
 import com.pichs.common.widget.cardview.XCardButton;
 import com.pichs.common.widget.utils.XDisplayHelper;
 import com.pichs.xdialog.CustomDialog;
+import com.pichs.xdialog.action.OnPopupWindowDismissListener;
 import com.pichs.xdialog.action.PopActions;
+import com.pichs.xdialog.action.PopDialogActions;
 import com.pichs.xdialog.base.BaseDialogFragment;
 import com.pichs.xdialog.toast.PopToast;
 
@@ -58,12 +60,33 @@ public class MainActivity extends AppCompatActivity {
                         .setOnPositiveClickListener(new CustomDialog.OnClickListener() {
                             @Override
                             public void onClick(BaseDialogFragment dialog, View view) {
-                                dialog.dismiss();
-                                new PopToast(mActivity)
-                                        .setIconResId(R.mipmap.ic_launcher_round)
-                                        .setMessage("大哥牛逼，赏个start吧！")
-                                        .setTitle("欧耶")
-                                        .show(btn);
+//                                new PopToast(mActivity)
+//                                        .setIconResId(R.mipmap.ic_launcher_round)
+//                                        .setMessage("大哥牛逼，赏个start吧！")
+//                                        .setTitle("欧耶")
+//                                        .show(btn);
+                                TextView tv = new TextView(mActivity);
+                                tv.setText("jdslfjldsajflasdjfldjsa");
+                                tv.setLayoutParams(new ViewGroup.LayoutParams(-2, -2));
+                                new PopDialogActions.Builder(mActivity)
+                                        .setContentWidth(XDisplayHelper.dp2px(mActivity, 100))
+                                        .setContentHeight(XDisplayHelper.dp2px(mActivity, 50))
+                                        .setArrowHeight(XDisplayHelper.dp2px(mActivity, 8))
+                                        .setArrowWidth(XDisplayHelper.dp2px(mActivity, 16))
+                                        .setBackgroundColor(Color.RED)
+                                        .setRadius(XDisplayHelper.dp2px(mActivity, 20))
+                                        .setOnPopupWindowDismissListener(new OnPopupWindowDismissListener() {
+                                            @Override
+                                            public void onPopDismiss() {
+
+                                            }
+                                        })
+                                        .setContentView(tv)
+                                        .setAnchor(view)
+                                        .setAnimationStyle(R.style.XP_Animation_PopUpMenu_Center)
+                                        .build()
+                                        .show();
+
                             }
                         })
                         .build().show();
@@ -83,11 +106,25 @@ public class MainActivity extends AppCompatActivity {
         TextView tv = new TextView(this);
         tv.setText("jdslfjldsajflasdjfldjsa");
         tv.setLayoutParams(new ViewGroup.LayoutParams(-2, -2));
-        PopActions pa = new PopActions(this, XDisplayHelper.dp2px(this, 200), XDisplayHelper.dp2px(this, 80));
-        pa.setRadius(XDisplayHelper.dp2px(this, 10));
-        pa.setBackgroundColor(Color.RED)
+        new PopActions.Builder(this)
+                .setContentWidth(XDisplayHelper.dp2px(this, 200))
+                .setContentHeight(XDisplayHelper.dp2px(this, 80))
+                .setArrowHeight(XDisplayHelper.dp2px(this, 8))
+                .setArrowWidth(XDisplayHelper.dp2px(this, 16))
+                .setBackgroundColor(Color.YELLOW)
+                .setRadius(XDisplayHelper.dp2px(this, 20))
                 .setDimAmountEnable(true)
-                .addView(tv);
-        pa.show(v);
+                .setOnPopupWindowDismissListener(new OnPopupWindowDismissListener() {
+                    @Override
+                    public void onPopDismiss() {
+
+                    }
+                })
+                .setContentView(tv)
+                .setAnchor(v)
+                .setOffsetY(-110)
+                .setAnimationStyle(R.style.XP_Animation_PopUpMenu_Center)
+                .build()
+                .show();
     }
 }

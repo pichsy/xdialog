@@ -9,7 +9,8 @@
        
        
 
-
+## 升级
+1.3 Popactions 用法采用建造者，跟之前不一样了，建议使用新版，功能更多。
 ## 用法
    
       new CustomDialog.Builder(mActivity)
@@ -50,14 +51,24 @@
                   TextView tv = new TextView(this);
                   tv.setText("jdslfjldsajflasdjfldjsa");
                   tv.setLayoutParams(new ViewGroup.LayoutParams(-2, -2));
-                 
-                  PopActions pa = new PopActions(this, XDisplayHelper.dp2px(this, 200), XDisplayHelper.dp2px(this, 80));
-                  pa
-                    .setRadius(XDisplayHelper.dp2px(this, 10))
-                    .setBackgroundColor(Color.RED)
-                    .setDimAmountEnable(true)
-                    .addView(tv)
-                    .show(v);
+                   new PopActions.Builder(this)
+                          .setContentWidth(XDisplayHelper.dp2px(this, 200))
+                          .setContentHeight(XDisplayHelper.dp2px(this, 80))
+                          .setDimAmountEnable(true)
+                          .setBackgroundColor(Color.YELLOW)
+                          .setRadius(XDisplayHelper.dp2px(this, 20))
+                          .setDimAmountEnable(true)
+                          .setOnPopupWindowDismissListener(new OnPopupWindowDismissListener() {
+                              @Override
+                              public void onPopDismiss() {
+          
+                              }
+                          })
+                          .setContentView(tv)
+                          .setAnchor(v)
+                          .setAnimationStyle(R.style.XP_Animation_PopDownMenu_Right)
+                          .build()
+                          .show();
           }
         
  
