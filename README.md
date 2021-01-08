@@ -5,7 +5,7 @@
 最新版本:  [![](https://jitpack.io/v/pichsy/xdialog.svg)](https://jitpack.io/#pichsy/xdialog)
     
         
-       implementation 'com.github.pichsy:xdialog:1.0'
+       implementation 'com.github.pichsy:xdialog:1.3'
        
        
 
