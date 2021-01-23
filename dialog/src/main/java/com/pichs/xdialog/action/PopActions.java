@@ -100,7 +100,7 @@ public class PopActions {
 
         public Builder(Context context) {
             mContext = context;
-            radius = XDisplayHelper.dp2px(context, 8);
+            radius = XDisplayHelper.dp2px(context, 8f);
         }
 
         public Builder setOnPopupWindowDismissListener(OnPopupWindowDismissListener onPopupWindowDismissListener) {
@@ -195,7 +195,7 @@ public class PopActions {
         this.mScreenWidth = XDisplayHelper.getScreenWidth(mContext);
         this.mScreenHeight = XDisplayHelper.getScreenHeight(mContext);
         if (builder.sideMargin < 0) {
-            this.mSideMargin = XDisplayHelper.dp2px(mContext, 8);
+            this.mSideMargin = XDisplayHelper.dp2px(mContext, 8f);
         } else {
             this.mSideMargin = builder.sideMargin;
         }

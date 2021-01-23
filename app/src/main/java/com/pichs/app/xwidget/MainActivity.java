@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
                 new CustomDialog.Builder(mActivity)
                         .setTitleTextColor(Color.BLUE)
                         .setTitleTextSize(24)
-                        .setRadius(XDisplayHelper.dp2px(mActivity, 20))
+                        .setRadius(XDisplayHelper.dp2px(mActivity, 20f))
                         .setBackgroundColor(Color.YELLOW)
                         .setDimAmount(0.8f)
                         .setDividerLineColor(Color.RED)
@@ -69,12 +69,12 @@ public class MainActivity extends AppCompatActivity {
                                 tv.setText("jdslfjldsajflasdjfldjsa");
                                 tv.setLayoutParams(new ViewGroup.LayoutParams(-2, -2));
                                 new PopDialogActions.Builder(mActivity)
-                                        .setContentWidth(XDisplayHelper.dp2px(mActivity, 100))
-                                        .setContentHeight(XDisplayHelper.dp2px(mActivity, 50))
-                                        .setArrowHeight(XDisplayHelper.dp2px(mActivity, 8))
-                                        .setArrowWidth(XDisplayHelper.dp2px(mActivity, 16))
+                                        .setContentWidth(XDisplayHelper.dp2px(mActivity, 100f))
+                                        .setContentHeight(XDisplayHelper.dp2px(mActivity, 50f))
+                                        .setArrowHeight(XDisplayHelper.dp2px(mActivity, 8f))
+                                        .setArrowWidth(XDisplayHelper.dp2px(mActivity, 16f))
                                         .setBackgroundColor(Color.RED)
-                                        .setRadius(XDisplayHelper.dp2px(mActivity, 20))
+                                        .setRadius(XDisplayHelper.dp2px(mActivity, 20f))
                                         .setOnPopupWindowDismissListener(new OnPopupWindowDismissListener() {
                                             @Override
                                             public void onPopDismiss() {
@@ -107,12 +107,12 @@ public class MainActivity extends AppCompatActivity {
         tv.setText("jdslfjldsajflasdjfldjsa");
         tv.setLayoutParams(new ViewGroup.LayoutParams(-2, -2));
         new PopActions.Builder(this)
-                .setContentWidth(XDisplayHelper.dp2px(this, 200))
-                .setContentHeight(XDisplayHelper.dp2px(this, 80))
-                .setArrowHeight(XDisplayHelper.dp2px(this, 8))
-                .setArrowWidth(XDisplayHelper.dp2px(this, 16))
+                .setContentWidth(XDisplayHelper.dp2px(this, 200f))
+                .setContentHeight(XDisplayHelper.dp2px(this, 80f))
+                .setArrowHeight(XDisplayHelper.dp2px(this, 8f))
+                .setArrowWidth(XDisplayHelper.dp2px(this, 16f))
                 .setBackgroundColor(Color.YELLOW)
-                .setRadius(XDisplayHelper.dp2px(this, 20))
+                .setRadius(XDisplayHelper.dp2px(this, 20f))
                 .setDimAmountEnable(true)
                 .setOnPopupWindowDismissListener(new OnPopupWindowDismissListener() {
                     @Override
