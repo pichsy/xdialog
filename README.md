@@ -5,11 +5,12 @@
 最新版本:  [![](https://jitpack.io/v/pichsy/xdialog.svg)](https://jitpack.io/#pichsy/xdialog)
     
         
-       implementation 'com.github.pichsy:xdialog:1.3'
+       implementation 'com.github.pichsy:xdialog:1.4'
        
        
 
 ## 升级
+1.4 升级xwidget库
 1.3 Popactions 用法采用建造者，跟之前不一样了，建议使用新版，功能更多。
 ## 用法
    

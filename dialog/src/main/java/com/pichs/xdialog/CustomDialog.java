@@ -314,8 +314,8 @@ public class CustomDialog extends BaseDialogFragment implements IDialog {
 
         public Builder(AppCompatActivity activity) {
             this.activity = activity;
-            this.radius = XDisplayHelper.dp2px(activity, 10);
-            this.margin = XDisplayHelper.dp2px(activity, 30);
+            this.radius = XDisplayHelper.dp2px(activity, 10f);
+            this.margin = XDisplayHelper.dp2px(activity, 30f);
         }
 
         public Builder setMargin(int margin) {
