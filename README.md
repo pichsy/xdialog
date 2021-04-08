@@ -1,3 +1,7 @@
+# 最新地址, 该项目已移到gitee
+# [https://gitee.com/pichs/xdialog](https://gitee.com/pichs/xdialog)
+
+
 # xdialog
 最喜欢的自定义弹窗
 
